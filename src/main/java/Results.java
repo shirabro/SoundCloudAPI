@@ -7,11 +7,18 @@ import java.util.logging.Level;
 
 public class Results {
 
-    static Hashtable<String, SearchResult> resultByTitle = new Hashtable<String, SearchResult>();
-    static Hashtable<String, SearchResult> resultByURL = new Hashtable<String, SearchResult>();
-    static Hashtable<Integer, SearchResult> resultByID = new Hashtable<Integer, SearchResult>();
+     Hashtable<String, SearchResult> resultByTitle;
+     Hashtable<String, SearchResult> resultByURL;
+     Hashtable<Integer, SearchResult> resultByID;
 
     ArrayList sortedList;
+
+    public Results(){
+        this.resultByTitle = new Hashtable<String, SearchResult>();
+        this.resultByURL = new Hashtable<String, SearchResult>();
+        this.resultByID = new Hashtable<Integer, SearchResult>();
+
+    }
 
     public void sortByTitle(){
         resultByTitle.keySet();
@@ -36,6 +43,18 @@ public class Results {
         resultByID.remove(sr.getId());
         resultByTitle.remove(sr.getTitle());
     }
+
+    public void addTitle(String title, SearchResult searchResult){
+        this.resultByTitle.put(title, searchResult);
+    }
+    public void addId(Integer id, SearchResult searchResult){
+        this.resultByID.put(id, searchResult);
+    }
+    public void addUrl(String url, SearchResult searchResult){
+        this.resultByURL.put(url, searchResult);
+    }
+
+
 
 
 }

@@ -16,9 +16,11 @@ public class APIThread implements Runnable {
 
     private static final int NUM_OF_RESULT = 10;
     private String url;
+    private SearchResult[] searchResults;
 
     public APIThread(String url) {
         this.url = url;
+        this.searchResults = new SearchResult[NUM_OF_RESULT];
     }
 
 
@@ -42,28 +44,29 @@ public class APIThread implements Runnable {
         return sb.toString();
     }
 
+
     public void run() {
-        Object lock = new Object();
         JSONObject jsonObject;
         SearchResult sr;
         try {
             JSONArray json = readJsonFromUrl(url);
-            synchronized (lock) {
-                SoundCloudAPILoger.log(Level.INFO, String.format("Search Query: %s", url));
-            }
+            SoundCloudAPILoger.log(Level.INFO, String.format("Search Query: %s", url));
+
             for (int i=0; i< NUM_OF_RESULT; i++){
                 jsonObject = (JSONObject)json.get(i);
                 String title = jsonObject.getString("title");
                 int id = jsonObject.getInt("id");
-                String url = jsonObject.getString("permalink_url");
+                String permalink_url = jsonObject.getString("permalink_url");
                 JSONObject user = jsonObject.getJSONObject("user");
                 sr = new SearchResult(id, title, url , user);
-                Results.resultByTitle.put(title, sr);
-                Results.resultByID.put(id, sr);
-                Results.resultByURL.put(url, sr);
+                this.searchResults[i] = sr;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public SearchResult[] getResults(){
+        return this.searchResults;
     }
 }
