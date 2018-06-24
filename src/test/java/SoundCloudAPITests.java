@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 public class SoundCloudAPITests {
     private SoundCloudAPI soundCloudAPI;
-    private Results results; 
+    private Results results;
 
     @Before
     public void setUp() throws Exception {
