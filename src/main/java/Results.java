@@ -7,28 +7,38 @@ import java.util.logging.Level;
 
 public class Results {
 
-     Hashtable<String, SearchResult> resultByTitle;
-     Hashtable<String, SearchResult> resultByURL;
-     Hashtable<Integer, SearchResult> resultByID;
+    private Hashtable<String, SearchResult> resultByTitle;
+    private Hashtable<String, SearchResult> resultByURL;
+    private Hashtable<Integer, SearchResult> resultByID;
+    private ArrayList<String> sortedList;
+    private static volatile Results results;
 
-    ArrayList sortedList;
-
-    public Results(){
+    private Results(){
         this.resultByTitle = new Hashtable<String, SearchResult>();
         this.resultByURL = new Hashtable<String, SearchResult>();
         this.resultByID = new Hashtable<Integer, SearchResult>();
 
     }
 
+    public static Results getInstance(){
+        if (results != null ) return results;
+        synchronized(Results.class){
+            if (results == null )
+                results = new Results();
+        }
+        return results;
+    }
+
+
     public void sortByTitle(){
         resultByTitle.keySet();
-        sortedList = new ArrayList(resultByTitle.keySet());
+        sortedList = new ArrayList<String>(resultByTitle.keySet());
         Collections.sort(sortedList);
     }
 
     public void printResults(){
-        for (int i = 0; i < sortedList.size(); i++) {
-            SoundCloudAPILoger.log(Level.INFO, resultByTitle.get(sortedList.get(i)).toString());
+        for (String aSortedList : sortedList) {
+            SoundCloudAPILogger.log(Level.INFO, resultByTitle.get(aSortedList).toString());
         }
     }
 
@@ -54,7 +64,15 @@ public class Results {
         this.resultByURL.put(url, searchResult);
     }
 
+    public Hashtable<String, SearchResult> getResultByTitle() {
+        return resultByTitle;
+    }
 
+    public Hashtable<String, SearchResult> getResultByURL() {
+        return resultByURL;
+    }
 
-
+    public Hashtable<Integer, SearchResult> getResultByID() {
+        return resultByID;
+    }
 }

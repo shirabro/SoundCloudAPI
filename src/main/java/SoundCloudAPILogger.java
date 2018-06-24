@@ -2,13 +2,13 @@ import java.io.IOException;
 import java.util.logging.*;
 
 
-public class SoundCloudAPILoger {
+public class SoundCloudAPILogger {
     static Logger logger;
     public Handler fileHandler;
     SimpleFormatter plainText;
 
-    private SoundCloudAPILoger() throws IOException {
-        logger = Logger.getLogger(SoundCloudAPILoger.class.getName());
+    private SoundCloudAPILogger() throws IOException {
+        logger = Logger.getLogger(SoundCloudAPILogger.class.getName());
         fileHandler = new FileHandler("SoundCloudAPILog.txt", true);
         plainText = new SimpleFormatter();
         fileHandler.setFormatter(plainText);
@@ -18,7 +18,7 @@ public class SoundCloudAPILoger {
     private static Logger getLogger(){
         if(logger == null){
             try {
-                new SoundCloudAPILoger();
+                new SoundCloudAPILogger();
             } catch (IOException e) {
                 e.printStackTrace();
             }

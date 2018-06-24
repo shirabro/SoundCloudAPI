@@ -1,13 +1,12 @@
-import org.json.JSONObject;
 
 public class SearchResult {
 
     private Integer id;
     private String title;
     private String url;
-    private JSONObject user;
+    private Object user;
 
-    public SearchResult(int id, String title, String url, JSONObject user) {
+    public SearchResult(int id, String title, String url, Object user) {
         this.id = id;
         this.title = title;
         this.url = url;
@@ -15,14 +14,12 @@ public class SearchResult {
     }
 
     public String toString(){
-        return new StringBuilder()
-                .append("{")
-                .append(String.format("id: %d, ",id))
-                .append(String.format("title: %s, ",title))
-                .append(String.format("url: %s, ",url))
-                .append(String.format("user: %s ",user.toString()))
-                .append("}")
-                .toString();
+        return "{" +
+                String.format("id: %d, ", id) +
+                String.format("title: %s, ", title) +
+                String.format("url: %s, ", url) +
+                String.format("user: %s ", user.toString()) +
+                "}";
     }
 
     public String getUrl() {

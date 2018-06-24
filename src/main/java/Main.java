@@ -1,20 +1,19 @@
 
-import java.util.logging.Logger;
+import java.util.ArrayList;
 
 public class Main {
 
-
-    static Logger logger = Logger.getLogger(Main.class.getName());
-
-
     public static void main(String[] args) {
         String url1 = "http://api.soundcloud.com/tracks/?q=pixes&client_id=pCNN85KHlpoe5K6ZlysWZBEgLJRcftOd";
-        SoundCloudAPI api = new SoundCloudAPI(url1);
-        api.runRequests();
+        String url2 = "http://api.soundcloud.com/tracks/?q=britney&client_id=pCNN85KHlpoe5K6ZlysWZBEgLJRcftOd";
+        String url3 = "http://api.soundcloud.com/tracks/?q=maroon5&client_id=pCNN85KHlpoe5K6ZlysWZBEgLJRcftOd";
+        ArrayList<String> urls = new ArrayList<String>();
+        urls.add(url1);
+        urls.add(url2);
+        urls.add(url3);
 
-        api.removeByID(new Integer(79356931));
-        api.removeByURL("https://soundcloud.com/silly-hats-man/where-is-my-mind-the-pixes");
-        api.removeByURL("https://soundcloud.com/laura-guerrero/britney-spears-toxic");
+        SoundCloudAPI api = new SoundCloudAPI(urls);
+        api.runRequests();
         api.sortByTitle();
         api.printResults();
 

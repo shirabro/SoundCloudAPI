@@ -12,15 +12,14 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 
-public class APIThread implements Runnable {
+public class APITask implements Runnable {
 
     private static final int NUM_OF_RESULT = 10;
     private String url;
-    private SearchResult[] searchResults;
 
-    public APIThread(String url) {
+
+    public APITask(String url) {
         this.url = url;
-        this.searchResults = new SearchResult[NUM_OF_RESULT];
     }
 
 
@@ -44,29 +43,32 @@ public class APIThread implements Runnable {
         return sb.toString();
     }
 
+    private void addToHashMaps(SearchResult sr){
+        Results.getInstance().addId(sr.getId(), sr);
+        Results.getInstance().addTitle(sr.getTitle(), sr);
+        Results.getInstance().addUrl(sr.getUrl(), sr);
+    }
+
 
     public void run() {
         JSONObject jsonObject;
         SearchResult sr;
         try {
             JSONArray json = readJsonFromUrl(url);
-            SoundCloudAPILoger.log(Level.INFO, String.format("Search Query: %s", url));
+            SoundCloudAPILogger.log(Level.INFO, String.format("Search Query: %s", url));
 
             for (int i=0; i< NUM_OF_RESULT; i++){
                 jsonObject = (JSONObject)json.get(i);
                 String title = jsonObject.getString("title");
                 int id = jsonObject.getInt("id");
                 String permalink_url = jsonObject.getString("permalink_url");
-                JSONObject user = jsonObject.getJSONObject("user");
-                sr = new SearchResult(id, title, url , user);
-                this.searchResults[i] = sr;
+                Object user = jsonObject.getJSONObject("user");
+                sr = new SearchResult(id, title, permalink_url , user);
+                addToHashMaps(sr);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public SearchResult[] getResults(){
-        return this.searchResults;
-    }
 }
