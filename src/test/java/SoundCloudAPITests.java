@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
 public class SoundCloudAPITests {
-    private SoundCloudAPI soundCloudAPI;
-    private Results results;
+    public SoundCloudAPI soundCloudAPI;
+    public Results results;
 
     @Before
     public void setUp() throws Exception {
